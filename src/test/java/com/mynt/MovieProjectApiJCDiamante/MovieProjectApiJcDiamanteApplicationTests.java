@@ -38,6 +38,7 @@ class MovieProjectApiJcDiamanteApplicationTests {
     }
 
     // Test #3
+    // Testing the findById method of MovieRepository. We're mocking the method to return a Movie object
     @Test
     public void testDeleteById() {
         MovieRepository movieRep = mock(MovieRepository.class);
