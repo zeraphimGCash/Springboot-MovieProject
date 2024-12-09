@@ -8,15 +8,11 @@ import com.mynt.MovieProjectApiJCDiamante.Service.MovieService;
 import com.mynt.MovieProjectApiJCDiamante.Service.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -104,7 +100,6 @@ class MovieProjectApiJcDiamanteApplicationTests {
 
     @Test
     @WithMockUser("admin")
-    // @WithAnonymousUser
     public void testGetSecurity() {
         System.out.println(service.getSecurity());
         assertNotNull(service.getSecurity());
@@ -117,7 +112,7 @@ class MovieProjectApiJcDiamanteApplicationTests {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"FDSJLKFJDSKLFJSD"})
+    @WithMockUser(username = "admin", roles = {"DEVELOPER"})
     public void testGetSecurityWithDevUser() {
         assertThrows(AccessDeniedException.class, () -> service.getSecurity());
     }
