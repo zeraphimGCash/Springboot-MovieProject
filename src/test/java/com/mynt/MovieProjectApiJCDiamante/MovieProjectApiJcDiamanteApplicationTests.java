@@ -8,16 +8,22 @@ import com.mynt.MovieProjectApiJCDiamante.Service.MovieService;
 import com.mynt.MovieProjectApiJCDiamante.Service.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
+@EnableGlobalMethodSecurity(prePostEnabled = true) // Enable method-level security
 class MovieProjectApiJcDiamanteApplicationTests {
 
     MovieService service = new MovieServiceImpl();
@@ -101,5 +107,20 @@ class MovieProjectApiJcDiamanteApplicationTests {
     public void testGetSecurityNegative() {
         System.out.println(service.getSecurity());
         assertNotNull(service.getSecurity());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"OTHERRR"}) // Simulate "DEV_USER" role
+    public void testGetSecurityWithDevUser() {
+        // Expect an AccessDeniedException since the role is not allowed
+        assertThrows(AccessDeniedException.class, () -> service.getSecurity());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"USER"}) // Simulate "ROLE_USER"
+    public void testGetSecurityWithRoleUser() {
+        // Should pass since "ROLE_USER" is allowed
+        String securityDetails = service.getSecurity();
+        assertNotNull(securityDetails);
     }
 }

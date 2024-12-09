@@ -5,6 +5,7 @@ import com.mynt.MovieProjectApiJCDiamante.Model.Movie;
 import com.mynt.MovieProjectApiJCDiamante.Repository.GenreRepository;
 import com.mynt.MovieProjectApiJCDiamante.Repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,10 +77,20 @@ public class MovieServiceImpl implements MovieService{
         return allMovies;
     }
 
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasAuthority('DEV_USER')")
+    //@PreAuthorize("hasAnyRole('ROLE_USER')")
     @Override
     public String getSecurity() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if the authenticated user is the MOCK USER and has ROLE_USER
+        if (auth != null && auth.getName().equals("admin") && !auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
+            throw new AccessDeniedException("Access Denied");
+        }
+
         return "" + auth;
     }
+
 }
