@@ -93,4 +93,11 @@ public class MovieServiceImpl implements MovieService{
         return "" + auth;
     }
 
+//    @PreAuthorize("hasRole('ROLE_USER') and principal.username == 'admin'")
+//    @Override
+//    public String getSecurity() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        return "" + auth;
+//    }
+
 }
