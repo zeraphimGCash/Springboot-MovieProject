@@ -5,6 +5,9 @@ import com.mynt.MovieProjectApiJCDiamante.Model.Movie;
 import com.mynt.MovieProjectApiJCDiamante.Repository.GenreRepository;
 import com.mynt.MovieProjectApiJCDiamante.Repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -71,5 +74,12 @@ public class MovieServiceImpl implements MovieService{
             }
         }
         return allMovies;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public String getSecurity() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return "" + auth;
     }
 }

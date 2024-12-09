@@ -4,13 +4,29 @@ import com.mynt.MovieProjectApiJCDiamante.Model.Genre;
 import com.mynt.MovieProjectApiJCDiamante.Model.Movie;
 import com.mynt.MovieProjectApiJCDiamante.Repository.GenreRepository;
 import com.mynt.MovieProjectApiJCDiamante.Repository.MovieRepository;
+import com.mynt.MovieProjectApiJCDiamante.Service.MovieService;
+import com.mynt.MovieProjectApiJCDiamante.Service.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration
 class MovieProjectApiJcDiamanteApplicationTests {
+
+    MovieService service = new MovieServiceImpl();
 
     // [MovieRepository TestCases]
 
@@ -79,4 +95,17 @@ class MovieProjectApiJcDiamanteApplicationTests {
         verify(genreRep, times(1)).deleteById(1L);
     }
 
+    @Test
+    @WithMockUser("admin")
+    // @WithAnonymousUser
+    public void testGetSecurity() {
+        System.out.println(service.getSecurity());
+        assertNotNull(service.getSecurity());
+    }
+
+    @Test
+    public void testGetSecurityNegative() {
+        System.out.println(service.getSecurity());
+        assertNotNull(service.getSecurity());
+    }
 }

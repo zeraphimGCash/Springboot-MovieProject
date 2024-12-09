@@ -11,4 +11,5 @@ public interface MovieService {
     List<Movie> getMoviesByYear(int yearReleased);
     List<Movie>  getAllMoviesOrderByYearReleased();
     List<Movie> getMoviesByGenreAndNotIsSequel(Genre genre, Boolean isSequel);
+    String getSecurity();
 }
