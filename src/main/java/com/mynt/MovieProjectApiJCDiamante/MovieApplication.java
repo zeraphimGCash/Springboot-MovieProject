@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 
 import java.util.Arrays;
 
-@EnableGlobalAuthentication
 @SpringBootApplication
 public class MovieApplication {
     public static void main(String[] args) {
