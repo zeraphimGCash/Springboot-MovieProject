@@ -3,7 +3,7 @@ by: John Christian Diamante
 
 # ⚒️ Setup
 1. Open the project using **IntelliJ**
-2. Access `localhost:8081` in the browser
+2. Access `localhost:8080` in the browser
    http://localhost:8080/
 3. Open another tab and access **H2 Console** -> Login with *username* and *password*
 4. Open the link http://localhost:8080/h2-console/
